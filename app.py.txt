@@ -1,0 +1,28 @@
+from flask import Flask, request, jsonify
+import pandas as pd
+
+app = Flask(__name__)
+
+# Link público para sua planilha no formato CSV
+CSV_URL = "https://docs.google.com/spreadsheets/d/1FpN08OnZ6i9DZ5pSqEl75pgpddD9inzH/export?format=csv"
+
+@app.route("/busca", methods=["GET"])
+def busca():
+    termo = request.args.get("termo", "")
+    if not termo:
+        return jsonify({"erro": "Parâmetro 'termo' não informado."}), 400
+    try:
+        df = pd.read_csv(CSV_URL)
+        # Procura termo em qualquer coluna, ignorando maiúsculas/minúsculas
+        mask = df.apply(lambda row: termo.lower() in str(row).lower(), axis=1)
+        resultados = df[mask].to_dict(orient="records")
+        return jsonify(resultados)
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+
+@app.route("/")
+def home():
+    return "API de busca no Google Sheets funcionando!"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
