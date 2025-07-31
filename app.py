@@ -4,7 +4,7 @@ import pandas as pd
 app = FastAPI()
 
 # Coloque aqui o link direto para seu arquivo XLSX (pode ser Box, Drive, etc.)
-EXCEL_URL = "https://app.box.com/index.php?rm=box_download_shared_file&shared_name=g75ukfevcoym61rquj0k3n3bwdcpn9zd&file_id=f_1940536962947"
+EXCEL_URL = "https://app.box.com/index.php?rm=box_download_shared_file&shared_name=8ewbh7o41cur40tpxfco7rk5pzsjfuho&file_id=f_1941672106811"
 
 @app.get("/")
 def home():
